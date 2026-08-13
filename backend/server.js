@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 
 import userRouter from "./routes/authRoute.js";
+import noteRouter from "./routes/noteRoute.js";
 import authMiddleware from "./middleware/authMiddleware.js";
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(express.json());
 connectDB();
 
 app.use("/api/auth", userRouter);
+app.use("/api/notes", noteRouter);
 
 app.get("/api/protected", authMiddleware, (req, res) => {
     res.status(200).json({
