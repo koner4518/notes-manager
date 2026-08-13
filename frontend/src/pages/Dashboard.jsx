@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import "./Dashboard.css";
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -135,6 +136,16 @@ const Dashboard = () => {
                             <p>
                                 {note.content}
                             </p>
+
+                            <div className="note-date">
+                                Created:{" "}
+                                {new Date(note.createdAt).toLocaleString()}
+                            </div>
+
+                            <div className="note-date">
+                                Updated:{" "}
+                                {new Date(note.updatedAt).toLocaleString()}
+                            </div>
 
                             <div className="note-actions">
 
