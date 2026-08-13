@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Note from "../models/note.js";
 
 export const createNote = async (req, res) => {
@@ -51,6 +52,12 @@ export const getNotes = async (req, res) => {
 
 export const getNoteById = async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({
+                message: "Invalid note ID"
+            });
+        }
+
         const note = await Note.findOne({
             _id: req.params.id,
             user: req.user.id
@@ -77,6 +84,12 @@ export const getNoteById = async (req, res) => {
 
 export const updateNote = async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({
+                message: "Invalid note ID"
+            });
+        }
+
         const { title, content } = req.body;
 
         if (!title || !content) {
@@ -122,6 +135,12 @@ export const updateNote = async (req, res) => {
 
 export const deleteNote = async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({
+                message: "Invalid note ID"
+            });
+        }
+
         const note = await Note.findOneAndDelete({
             _id: req.params.id,
             user: req.user.id
