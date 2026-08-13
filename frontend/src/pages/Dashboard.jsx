@@ -1,26 +1,22 @@
-import { useEffect } from "react";
-import api from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        const testProtectedRoute = async () => {
-            try {
-                const response = await api.get("/protected");
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
 
-                console.log(response.data);
-
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        testProtectedRoute();
-    }, []);
+        navigate("/login");
+    };
 
     return (
         <div>
             <h1>Dashboard</h1>
+
+            <button onClick={handleLogout}>
+                Logout
+            </button>
         </div>
     );
 };
