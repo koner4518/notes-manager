@@ -51,35 +51,68 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <h1>Login</h1>
+        <main className="auth-page">
 
-            <form onSubmit={handleSubmit}>
+            <div className="auth-card">
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                />
+                <h1>Welcome Back</h1>
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                />
+                <p className="auth-subtitle">
+                    Login to access your notes.
+                </p>
 
-                <button type="submit">
-                    Login
-                </button>
+                <form
+                    className="auth-form"
+                    onSubmit={handleSubmit}
+                >
 
-            </form>
+                    <input
+                        className="auth-input"
+                        type="email"
+                        name="email"
+                        placeholder="Email address"
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
 
-            {error && <p>{error}</p>}
-        </div>
+                    <input
+                        className="auth-input"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={formData.password}
+                        onChange={handleChange}
+                    />
+
+                    {error && (
+                        <div className="error-message">
+                            {error}
+                        </div>
+                    )}
+
+                    <button
+                        className="primary-btn"
+                        type="submit"
+                    >
+                        Login
+                    </button>
+
+                </form>
+
+                <p className="auth-footer">
+                    Don't have an account?{" "}
+                    <span
+                        className="auth-link"
+                        onClick={() => navigate("/register")}
+                        style={{ cursor: "pointer" }}
+                    >
+                        Create account
+                    </span>
+                </p>
+
+            </div>
+
+        </main>
     );
 };
 

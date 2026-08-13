@@ -74,50 +74,74 @@ const EditNote = () => {
     };
 
     if (loading) {
-        return <p>Loading note...</p>;
+        return (
+            <div className="loading">
+                Loading note...
+            </div>
+        );
     }
 
     return (
-        <div>
-            <h1>Edit Note</h1>
+        <main className="note-form-page">
 
-            <form onSubmit={handleSubmit}>
+            <div className="note-form-card">
 
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Note title"
-                    value={formData.title}
-                    onChange={handleChange}
-                />
+                <h1>Edit Note</h1>
 
-                <br />
-
-                <textarea
-                    name="content"
-                    placeholder="Write your note..."
-                    value={formData.content}
-                    onChange={handleChange}
-                    rows="8"
-                />
-
-                <br />
-
-                <button type="submit">
-                    Update Note
-                </button>
-
-                <button
-                    type="button"
-                    onClick={() => navigate("/dashboard")}
+                <form
+                    className="note-form"
+                    onSubmit={handleSubmit}
                 >
-                    Cancel
-                </button>
 
-            </form>
+                    <input
+                        className="note-input"
+                        type="text"
+                        name="title"
+                        placeholder="Note title"
+                        value={formData.title}
+                        onChange={handleChange}
+                    />
 
-            {error && <p>{error}</p>}
-        </div>
+                    <textarea
+                        className="note-textarea"
+                        name="content"
+                        placeholder="Write your note..."
+                        value={formData.content}
+                        onChange={handleChange}
+                    />
+
+                    {error && (
+                        <div className="error-message">
+                            {error}
+                        </div>
+                    )}
+
+                    <div className="form-actions">
+
+                        <button
+                            className="primary-btn"
+                            type="submit"
+                        >
+                            Update Note
+                        </button>
+
+                        <button
+                            className="cancel-btn"
+                            type="button"
+                            onClick={() =>
+                                navigate("/dashboard")
+                            }
+                        >
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
     );
 };
 

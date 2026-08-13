@@ -26,20 +26,24 @@ const Dashboard = () => {
         }
     };
 
+    useEffect(() => {
+        fetchNotes();
+    }, []);
+
     const handleDelete = async (id) => {
         const confirmed = window.confirm(
             "Are you sure you want to delete this note?"
         );
 
-        if (!confirmed) {
-            return;
-        }
+        if (!confirmed) return;
 
         try {
             await api.delete(`/notes/${id}`);
 
-            setNotes(
-                notes.filter((note) => note._id !== id)
+            setNotes((currentNotes) =>
+                currentNotes.filter(
+                    (note) => note._id !== id
+                )
             );
 
         } catch (error) {
@@ -50,65 +54,120 @@ const Dashboard = () => {
         }
     };
 
-    useEffect(() => {
-        fetchNotes();
-    }, []);
-
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-
-        navigate("/login");
-    };
-
     return (
-        <div>
-            <h1>Notes Manager</h1>
+        <main className="dashboard">
 
-            <p>
-                Welcome, {user?.name}
-            </p>
+            <section className="dashboard-header">
 
-            <button onClick={() => navigate("/notes/new")}>
-                Create Note
-            </button>
+                <div>
+                    <p className="welcome-text">
+                        Welcome back 👋
+                    </p>
 
-            <button onClick={handleLogout}>
-                Logout
-            </button>
+                    <h1>
+                        {user?.name}'s Notes
+                    </h1>
 
-            <hr />
+                    <p className="subtitle">
+                        Keep your thoughts organized.
+                    </p>
+                </div>
 
-            <h2>Your Notes</h2>
+                <button
+                    className="primary-btn"
+                    onClick={() => navigate("/notes/new")}
+                >
+                    + Create Note
+                </button>
 
-            {loading && <p>Loading notes...</p>}
+            </section>
 
-            {error && <p>{error}</p>}
-
-            {!loading && !error && notes.length === 0 && (
-                <p>No notes found. Create your first note!</p>
+            {error && (
+                <div className="error-message">
+                    {error}
+                </div>
             )}
 
-            {notes.map((note) => (
-                <div key={note._id}>
-                    <h3>{note.title}</h3>
+            {loading ? (
+                <div className="loading">
+                    Loading your notes...
+                </div>
+            ) : notes.length === 0 ? (
 
-                    <p>{note.content}</p>
+                <div className="empty-state">
+                    <div className="empty-icon">
+                        📝
+                    </div>
+
+                    <h2>
+                        No notes yet
+                    </h2>
+
+                    <p>
+                        Start by creating your first note.
+                    </p>
 
                     <button
+                        className="primary-btn"
                         onClick={() =>
-                            navigate(`/notes/${note._id}/edit`)
+                            navigate("/notes/new")
                         }
                     >
-                        Edit
-                    </button>
-
-                    <button onClick={() => handleDelete(note._id)}>
-                        Delete
+                        Create Your First Note
                     </button>
                 </div>
-            ))}
-        </div>
+
+            ) : (
+
+                <section className="notes-grid">
+
+                    {notes.map((note) => (
+
+                        <article
+                            className="note-card"
+                            key={note._id}
+                        >
+
+                            <h2>
+                                {note.title}
+                            </h2>
+
+                            <p>
+                                {note.content}
+                            </p>
+
+                            <div className="note-actions">
+
+                                <button
+                                    className="edit-btn"
+                                    onClick={() =>
+                                        navigate(
+                                            `/notes/${note._id}/edit`
+                                        )
+                                    }
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    className="delete-btn"
+                                    onClick={() =>
+                                        handleDelete(note._id)
+                                    }
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </article>
+
+                    ))}
+
+                </section>
+            )}
+
+        </main>
     );
 };
 

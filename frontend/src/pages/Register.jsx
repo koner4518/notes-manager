@@ -56,42 +56,83 @@ const Register = () => {
     };
 
     return (
-        <div>
-            <h1>Create Account</h1>
+        <main className="auth-page">
 
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                />
+            <div className="auth-card">
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                />
+                <h1>Create Account</h1>
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                />
+                <p className="auth-subtitle">
+                    Start organizing your notes today.
+                </p>
 
-                <button type="submit">
-                    Register
-                </button>
-            </form>
+                <form
+                    className="auth-form"
+                    onSubmit={handleSubmit}
+                >
 
-            {message && <p>{message}</p>}
-            {error && <p>{error}</p>}
-        </div>
+                    <input
+                        className="auth-input"
+                        type="text"
+                        name="name"
+                        placeholder="Full name"
+                        value={formData.name}
+                        onChange={handleChange}
+                    />
+
+                    <input
+                        className="auth-input"
+                        type="email"
+                        name="email"
+                        placeholder="Email address"
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
+
+                    <input
+                        className="auth-input"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={formData.password}
+                        onChange={handleChange}
+                    />
+
+                    {error && (
+                        <div className="error-message">
+                            {error}
+                        </div>
+                    )}
+
+                    {message && (
+                        <div>
+                            {message}
+                        </div>
+                    )}
+
+                    <button
+                        className="primary-btn"
+                        type="submit"
+                    >
+                        Create Account
+                    </button>
+
+                </form>
+
+                <p className="auth-footer">
+                    Already have an account?{" "}
+                    <span
+                        className="auth-link"
+                        onClick={() => navigate("/login")}
+                        style={{ cursor: "pointer" }}
+                    >
+                        Login
+                    </span>
+                </p>
+
+            </div>
+
+        </main>
     );
 };
 
